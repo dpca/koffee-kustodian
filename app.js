@@ -12,6 +12,11 @@ const autoMark = true;
 
 let slack = new Slack(slackToken, autoReconnect, autoMark);
 
+function sendResponse(channel, message) {
+  console.log('Response: ' + message);
+  channel.send(message);
+}
+
 slack.on('open', function() {
   console.log('Connected to ' + slack.team.name + ' as ' + slack.self.name);
 });
@@ -27,13 +32,9 @@ slack.on('message', function(message) {
   // Only respond in the specified channel or to individual users
   if (!channel.is_channel || channel.name === slackChannel) {
     if (message.text.match(/praise koffee/ig)) {
-      let res = '༼ つ ◕_◕ ༽つ ☕️';
-      console.log('Response: ' + res);
-      channel.send(res);
+      sendResponse(channel, '༼ つ ◕_◕ ༽つ ☕️');
     } else if (message.text.match(/c/ig)) {
-      let res = _.sample(responses)('@' + user.name);
-      console.log('Response: ' + res);
-      channel.send(res);
+      sendResponse(channel, _.sample(responses)('@' + user.name));
     }
   }
 });
