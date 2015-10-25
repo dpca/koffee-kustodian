@@ -1,0 +1,16 @@
+{
+  "name": "koffee-kustodian",
+  "version": "0.0.1",
+  "description": "Punishes those who use the Semisirkle Letter That Shall Not Be Named",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dan Cahoon",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^1.2.0",
+    "lodash": "^3.10.1",
+    "slack-client": "^1.4.1"
+  }
+}
