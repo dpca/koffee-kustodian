@@ -31,10 +31,10 @@ slack.on('message', function(message) {
 
   // Only respond in the specified channel or to individual users
   if (channel.name === slackChannel) {
-    if (message.text.match(/praise koffee/ig)) {
-      sendResponse(channel, '༼ つ ◕_◕ ༽つ ☕️');
-    } else if (message.text.match(/c/ig)) {
+    if (message.text.match(/c/ig)) {
       sendResponse(channel, _.sample(responses)('@' + user.name));
+    } else if (message.text.match(/praise koffee/ig)) {
+      sendResponse(channel, '༼ つ ◕_◕ ༽つ ☕️');
     }
   }
 });
