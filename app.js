@@ -24,13 +24,13 @@ slack.on('open', function() {
 slack.on('message', function(message) {
   console.log('Received: ' + message);
 
-  let channel = slack.getChannelGroupOrDMByID(message.channel);
+  let channel = slack.getChannelByID(message.channel);
   if (!channel) return;
   let user = slack.getUserByID(message.user);
   if (!user) return;
 
   // Only respond in the specified channel or to individual users
-  if (!channel.is_channel || channel.name === slackChannel) {
+  if (channel.name === slackChannel) {
     if (message.text.match(/praise koffee/ig)) {
       sendResponse(channel, '༼ つ ◕_◕ ༽つ ☕️');
     } else if (message.text.match(/c/ig)) {
