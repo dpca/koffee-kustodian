@@ -43,5 +43,7 @@ module.exports = [
   () => 'Shun!',
   () => 'Most high praise to the Great and Sakred Koffee! Shun the nonbeliever!',
   () => 'NO',
-  () => 'Wat'
+  () => 'Wat',
+  () => 'Shame!',
+  () => 'Shame! Shame! Shame! 🔔'
 ];
