@@ -46,10 +46,10 @@ function shouldComplain(message) {
 function subtypeRespond(message, channel, user) {
   switch(message.subtype) {
   case 'channel_join':
-    sendResponse(channel, 'Welkome to the promised land @' + user.name + '!');
+    sendResponse(channel, 'Welkome to the promised land <@' + user.id + '>!');
     break;
   case 'channel_leave':
-    sendResponse(channel, 'Bye bye @' + user.name + '!');
+    sendResponse(channel, 'Bye bye <@' + user.id + '>!');
     break;
   }
 }
@@ -62,7 +62,7 @@ function subtypeRespond(message, channel, user) {
  */
 function realMessage(message, channel, user) {
   if (shouldComplain(message)) {
-    sendResponse(channel, _.sample(responses)('@' + user.name));
+    sendResponse(channel, _.sample(responses)('<@' + user.id + '>'));
   } else if (message.text.match(/praise koffee/ig)) {
     sendResponse(channel, '༼ つ ◕_◕ ༽つ ☕️');
   }
