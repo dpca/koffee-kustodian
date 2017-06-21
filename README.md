@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/dpca/koffee-kustodian.svg?branch=master)](https://travis-ci.org/dpca/koffee-kustodian)
+[![Code Climate](https://codeclimate.com/github/dpca/koffee-kustodian/badges/gpa.svg)](https://codeclimate.com/github/dpca/koffee-kustodian)
+
+* * *
+
 # koffee-kustodian
 
 A bot that complains when users use the letter "C" in slack. Responds with a
