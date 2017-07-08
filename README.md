@@ -21,9 +21,8 @@ https://api.slack.com/docs/oauth-test-tokens but should use a bot token from
 https://my.slack.com/services/new/bot for a real deployment. Read more about
 bot users here: https://api.slack.com/bot-users.
 
-Run with:
-
 ```
+yarn install
 node src/app.js
 ```
 
