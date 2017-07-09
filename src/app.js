@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').load();
+require('dotenv').config();
 const _ = require('lodash');
 const Slack = require('slack-client');
 const responses = require('./responses.js');
