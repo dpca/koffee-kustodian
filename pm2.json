@@ -1,0 +1,9 @@
+{
+  "apps": [{
+    "name": "koffee-bot",
+    "script": "src/app.js",
+    "env": {
+      "production": true
+    }
+  }]
+}
