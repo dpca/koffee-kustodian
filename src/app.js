@@ -2,16 +2,20 @@
 
 require('dotenv').config();
 const _ = require('lodash');
-const Slack = require('slack-client');
+const RtmClient = require('@slack/client').RtmClient;
+const MemoryDataStore = require('@slack/client').MemoryDataStore;
+const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 const responses = require('./responses.js');
 const whitelist = require('./whitelist.js');
 
 const slackToken = process.env.SLACK_TOKEN;
 const slackChannel = process.env.SLACK_CHANNEL;
-const autoReconnect = true;
-const autoMark = true;
 
-const slack = new Slack(slackToken, autoReconnect, autoMark);
+const rtm = new RtmClient(slackToken, {
+  logLevel: 'error',
+  dataStore: new MemoryDataStore(),
+});
 
 /**
  * Sends a response to slack
@@ -20,7 +24,7 @@ const slack = new Slack(slackToken, autoReconnect, autoMark);
  */
 function sendResponse(channel, message) {
   console.log(`Response: ${message}`);
-  channel.send(message);
+  rtm.sendMessage(message, channel.id);
 }
 
 /**
@@ -29,12 +33,13 @@ function sendResponse(channel, message) {
  * @return {Boolean} true if the bot should complain
  */
 function shouldComplain(message) {
-  // Replace all ok text from the whitelist with nothing and then check
+  // Replace all ok text from the whitelist with nothing and replace user ids
+  // with their names
   const filteredText = _.reduce(
     whitelist,
     (res, okText) => res.replace(okText, ''),
-    message.text
-  );
+    message.text,
+  ).replace(/<@(\w*)>/, (match, id) => rtm.dataStore.getUserById(id).name);
   //console.log('Post whitelist: ' + filteredText);
   return /c/ig.test(filteredText);
 }
@@ -72,16 +77,16 @@ function realMessage(message, channel, user) {
 
 // Let's get it on!
 
-slack.on('open', () => {
-  console.log(`Connected to ${slack.team.name} as ${slack.self.name}`);
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
+  console.log(`Connected to ${rtmStartData.team.name} as ${rtmStartData.self.name}`);
 });
 
-slack.on('message', (message) => {
-  console.log(`Received: ${message}`);
-
-  const channel = slack.getChannelGroupOrDMByID(message.channel);
-  const user = slack.getUserByID(message.user);
+rtm.on(RTM_EVENTS.MESSAGE, (message) => {
+  const channel = rtm.dataStore.getChannelGroupOrDMById(message.channel);
+  const user = rtm.dataStore.getUserById(message.user);
   if (!user) return;
+
+  console.log(`Received: <@${user.name}> ${message.text}`);
 
   // Only respond in the specified channel or to individual users
   if (channel.name === slackChannel || channel.is_channel !== 'true') {
@@ -93,8 +98,4 @@ slack.on('message', (message) => {
   }
 });
 
-slack.on('error', (err) => {
-  console.error('Error', err);
-});
-
-slack.login();
+rtm.start();
