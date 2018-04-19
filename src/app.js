@@ -41,7 +41,7 @@ function shouldComplain(message) {
     message.text,
   ).replace(/<@(\w*)>/, (match, id) => rtm.dataStore.getUserById(id).name);
   //console.log('Post whitelist: ' + filteredText);
-  return /c/ig.test(filteredText);
+  return /(c|с)/ig.test(filteredText);
 }
 
 /**
