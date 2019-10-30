@@ -11,6 +11,6 @@
   "dependencies": {
     "@slack/client": "^3.14.1",
     "dotenv": "^4.0.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.13"
   }
 }
