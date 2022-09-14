@@ -18,10 +18,6 @@ function sendResponse(channel, message) {
 }
 
 function shouldComplain(text) {
-  if (text === undefined) {
-    return false;
-  }
-
   // Replace all ok text from the whitelist with nothing and replace user ids
   // with their names
   const filteredText = _.reduce(
@@ -34,6 +30,10 @@ function shouldComplain(text) {
 }
 
 rtm.on('message', ({ user, channel, text }) => {
+  if (text === undefined) {
+    return;
+  }
+
   // Only respond in the specified channel
   if (channel === slackChannel) {
     console.log(`Received: ${channel} <@${user}> ${text}`);
