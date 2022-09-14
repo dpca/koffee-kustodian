@@ -1,7 +1,7 @@
 {
   "apps": [{
     "name": "koffee-bot",
-    "script": "src/app.js",
+    "script": "dist/app.js",
     "env": {
       "production": true
     }
