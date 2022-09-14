@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:16-alpine
 
 RUN npm install -g -s pm2
 
@@ -8,7 +8,7 @@ WORKDIR $APP_HOME
 
 COPY package.json $APP_HOME
 COPY yarn.lock $APP_HOME
-RUN yarn install --production
+RUN yarn install
 
 COPY src $APP_HOME/src
 COPY pm2.json $APP_HOME
