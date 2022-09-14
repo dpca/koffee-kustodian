@@ -1,8 +1,9 @@
-'use strict';
+import * as dotenv from 'dotenv';
 
-require('dotenv').config();
-const _ = require('lodash');
-const { RTMClient } = require('@slack/rtm-api');
+dotenv.config();
+
+import _ from 'lodash';
+import { RTMClient } from '@slack/rtm-api';
 
 const responses = require('./responses.js');
 const whitelist = require('./whitelist.js');
@@ -10,7 +11,7 @@ const whitelist = require('./whitelist.js');
 const slackToken = process.env.SLACK_TOKEN;
 const slackChannel = process.env.SLACK_CHANNEL;
 
-const rtm = new RTMClient(slackToken, { logLevel: 'error' });
+const rtm = new RTMClient(slackToken);
 
 function sendResponse(channel, message) {
   console.log(`Response: ${message}`);
@@ -24,7 +25,7 @@ function shouldComplain(text) {
     whitelist,
     (res, okText) => res.replace(okText, ''),
     text,
-  ).replace(/<@(\w*)>/, (match, id) => rtm.dataStore.getUserById(id).name);
+  ).replace(/<@(\w*)>/, '');
   //console.log('Post whitelist: ' + filteredText);
   return /(c|с|ç|¢|ć|ĉ|Č)/ig.test(filteredText);
 }
@@ -59,5 +60,5 @@ rtm.on('member_left_channel', async (event) => {
 
 (async () => {
   const { self, team } = await rtm.start();
-  console.log(`Connected to ${team.name} as ${self.name}`);
+  console.log(`Connected to ${(team as any).name} as ${(self as any).name}`);
 })();
