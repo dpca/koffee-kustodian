@@ -9,7 +9,7 @@ const responses = require('./responses.js');
 const whitelist = require('./whitelist.js');
 
 const slackToken = process.env.SLACK_TOKEN;
-const slackChannels = process.env.SLACK_CHANNEL.split(',');
+const slackChannels = process.env.SLACK_CHANNELS.split(',');
 
 const rtm = new RTMClient(slackToken);
 
