@@ -9,7 +9,7 @@ const responses = require('./responses.js');
 const whitelist = require('./whitelist.js');
 
 const slackToken = process.env.SLACK_TOKEN;
-const slackChannel = process.env.SLACK_CHANNEL;
+const slackChannels = process.env.SLACK_CHANNEL.split(',');
 
 const rtm = new RTMClient(slackToken);
 
@@ -36,7 +36,7 @@ rtm.on('message', ({ user, channel, text }) => {
   }
 
   // Only respond in the specified channel
-  if (channel === slackChannel) {
+  if (slackChannels.includes(channel)) {
     console.log(`Received: ${channel} <@${user}> ${text}`);
     if (shouldComplain(text)) {
       sendResponse(channel, _.sample(responses)(`<@${user}>`));
@@ -47,13 +47,13 @@ rtm.on('message', ({ user, channel, text }) => {
 });
 
 rtm.on('member_joined_channel', async (event) => {
-  if (event.channel === slackChannel) {
+  if (slackChannels.includes(event.channel)) {
     sendResponse(event.channel, `Welkome to the promised land <@${event.user}>!`);
   }
 });
 
 rtm.on('member_left_channel', async (event) => {
-  if (event.channel === slackChannel) {
+  if (slackChannels.includes(event.channel)) {
     sendResponse(event.channel, `Bye bye <@${event.user}>!`);
   }
 });
