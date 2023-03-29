@@ -9,7 +9,7 @@ Uses [dotenv](https://github.com/motdotla/dotenv) for development
 configuration. Set the following in `.env`:
 
 * SLACK_TOKEN - see below
-* SLACK_CHANNEL - koffee channel to join and complain in
+* SLACK_CHANNELS - koffee channel(s) to join and complain in, comma separated
 
 You can request a token for testing purposes from
 https://api.slack.com/docs/oauth-test-tokens but should use a bot token from
@@ -27,12 +27,12 @@ When using docker, pass in the environment variables instead of using a `.env`
 file.
 
 ```
-docker run --rm -e "SLACK_TOKEN=$SLACK_TOKEN" -e "SLACK_CHANNEL=random" dpca/koffee-kustodian
+docker run --rm -e "SLACK_TOKEN=$SLACK_TOKEN" -e "SLACK_CHANNELS=random" dpca/koffee-kustodian
 ```
 
 Or build locally:
 
 ```
 docker build -t koffee-bot .
-docker run --rm -e "SLACK_TOKEN=$SLACK_TOKEN" -e "SLACK_CHANNEL=random" koffee-bot
+docker run --rm -e "SLACK_TOKEN=$SLACK_TOKEN" -e "SLACK_CHANNELS=random" koffee-bot
 ```
